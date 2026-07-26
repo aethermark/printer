@@ -3,6 +3,7 @@
 #include <ranges>
 
 #include "printer/reflect.hpp"
+#include "printer/render.hpp"
 #include "printer/style.hpp"
 
 namespace printer {
