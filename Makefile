@@ -23,7 +23,7 @@ release:
 	@cmake --build $(RELEASE_DIR) -- --no-print-directory
 
 run:
-	@./$(DEBUG_DIR)/examples/playground/playground
+	@./$(DEBUG_DIR)/examples/playground/printer-playground
 
 test:
 	@$(DEBUG_DIR)/tests/printer-tests

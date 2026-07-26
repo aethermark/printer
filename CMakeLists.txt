@@ -7,7 +7,18 @@ project(
     LANGUAGES CXX
 )
 
-include(CTest)
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+    set(PRINTER_IS_TOP_LEVEL ON)
+else()
+    set(PRINTER_IS_TOP_LEVEL OFF)
+endif()
+
+if(PRINTER_IS_TOP_LEVEL)
+    include(CTest)
+else()
+    set(BUILD_TESTING OFF)
+endif()
+
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
@@ -17,20 +28,20 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Options
 # ============================================================================
 
-option(PRINTER_BUILD_PLAYGROUND "Build playground" ON)
-option(PRINTER_BUILD_BENCHMARKS "Build benchmarks" OFF)
-option(PRINTER_ENABLE_COVERAGE "Enable coverage instrumentation" OFF)
+option(PRINTER_BUILD_PLAYGROUND "Build playground" ${PRINTER_IS_TOP_LEVEL})
+option(PRINTER_BUILD_BENCHMARKS "Build benchmarks" ${PRINTER_IS_TOP_LEVEL})
+option(PRINTER_ENABLE_COVERAGE "Enable coverage instrumentation" ${PRINTER_IS_TOP_LEVEL})
 
 # ============================================================================
 # Library
 # ============================================================================
 
-add_library(printer)
+add_library(printer STATIC)
 
 add_library(printer::printer ALIAS printer)
 
 file(GLOB_RECURSE PRINTER_SOURCES CONFIGURE_DEPENDS
-    "${PROJECT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 target_sources(printer
@@ -40,10 +51,10 @@ target_sources(printer
 
 target_include_directories(printer
     PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_compile_features(printer
@@ -59,11 +70,12 @@ set_target_properties(printer PROPERTIES
 # ============================================================================
 # Coverage
 # ============================================================================
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-include(EnableCoverage)
-
-enable_coverage(printer)
+if(PRINTER_IS_TOP_LEVEL AND PRINTER_ENABLE_COVERAGE)
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+  include(EnableCoverage)
+  enable_coverage(printer)
+endif()
 
 # ============================================================================
 # Subdirectories
