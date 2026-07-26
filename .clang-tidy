@@ -1,0 +1,23 @@
+Checks: >
+  bugprone-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  modernize-*,
+  cppcoreguidelines-*,
+  google-*,
+  clang-analyzer-*
+
+  -portability-avoid-pragma-once,
+  -readability-identifier-length
+
+CheckOptions:
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: '1'
+
+WarningsAsErrors: '*'
+
+HeaderFilterRegex: '^.*/(include|src)/'
+
+FormatStyle: file
+
