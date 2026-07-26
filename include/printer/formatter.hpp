@@ -79,14 +79,14 @@ public:
   template <Reflectable T>
   [[nodiscard]]
   auto Render(const T& object) const -> std::string {
-    return Render(MakeTable(object), state_);
+    return RenderImpl(MakeTable(object), state_);
   }
 
   template <std::ranges::input_range Range>
     requires Reflectable<std::ranges::range_value_t<Range>>
   [[nodiscard]]
   auto Render(const Range& range) const -> std::string {
-    return Render(MakeTable(range), state_);
+    return RenderImpl(MakeTable(range), state_);
   }
 
   template <Reflectable T>

@@ -262,7 +262,7 @@ inline auto RenderPretty(const Table& table, const FormatState& fmt) -> std::str
   return out;
 }
 
-inline auto Render(const Table& table, const FormatState& fmt) -> std::string {
+inline auto RenderImpl(const Table& table, const FormatState& fmt) -> std::string {
   switch (fmt.layout) {
     case Layout::kDebug:
       return RenderDebug(table, fmt);
