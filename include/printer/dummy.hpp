@@ -9,4 +9,4 @@ namespace printer {
 /// @return The sum of `lhs` and `rhs`.
 auto add(int lhs, int rhs) -> int;
 
-} // namespace printer
+}  // namespace printer
