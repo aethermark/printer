@@ -36,10 +36,10 @@ format:
 	@echo "Done."
 
 lint: debug
-	@find src include \
-		-type f \( -name "*.cpp" -o -name "*.hpp" \) \
+	@find src \
+		-type f  -name "*.cpp" \
 		-print0 | \
-	xargs -0 clang-tidy -p $(DEBUG_DIR)
+    xargs -0 clang-tidy -p $(DEBUG_DIR) -header-filter="(src|include)/.*"
 
 	@python3 $(IWYU_TOOL) \
 		-p $(DEBUG_DIR) \
