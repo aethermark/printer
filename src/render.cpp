@@ -1,30 +1,15 @@
-#pragma once
+#include "render.hpp"
 
 #include <algorithm>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
 
-#include "printer/model.hpp"
+#include "model.hpp"
+#include "printer/style.hpp"
 
 namespace printer {
-
-struct Borders {
-  std::string_view top_left;
-  std::string_view top_mid;
-  std::string_view top_right;
-
-  std::string_view mid_left;
-  std::string_view mid_mid;
-  std::string_view mid_right;
-
-  std::string_view bottom_left;
-  std::string_view bottom_mid;
-  std::string_view bottom_right;
-
-  std::string_view horizontal;
-  std::string_view vertical;
-};
 
 inline constexpr Borders kUnicode{.top_left = "┌",
                                   .top_mid = "┬",

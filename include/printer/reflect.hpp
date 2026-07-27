@@ -2,7 +2,7 @@
 
 #include <optional>
 
-#include "printer/model.hpp"
+#include "model.hpp"
 #include "printer/style.hpp"
 
 namespace printer {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "printer/model.hpp"
+#include "model.hpp"
 #include "printer/reflect.hpp"
 #include "printer/style.hpp"
 
