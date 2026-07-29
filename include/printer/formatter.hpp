@@ -26,9 +26,11 @@ public:
   auto HeaderAlignment(Alignment alignment) -> Formatter&;
   auto MajorAlignment(Alignment alignment) -> Formatter&;
   auto Alignment(Alignment alignment) -> Formatter&;
+  auto ThemeDark() -> Formatter&;
+  auto ThemeGruvbox() -> Formatter&;
+
   template <Reflectable T>
-  [[nodiscard]]
-  auto Render(const T& object) const -> std::string;
+  [[nodiscard]] auto Render(const T& object) const -> std::string;
   template <std::ranges::input_range Range>
     requires Reflectable<std::ranges::range_value_t<Range>>
   [[nodiscard]]

@@ -69,6 +69,43 @@ auto Formatter::Alignment(::printer::Alignment alignment) -> Formatter& {
   return *this;
 }
 
+auto Formatter::ThemeDark() -> Formatter& {
+  state_.layout = Layout::kPretty;
+  state_.border = Border::kUnicode;
+  state_.colors = true;
+
+  state_.alignment = Alignment::kLeft;
+  state_.header.alignment = Alignment::kLeft;
+  state_.major.alignment = Alignment::kLeft;
+
+  state_.header.color = Color::kGreen;
+  state_.header.bold = true;
+
+  state_.major.color = Color::kCyan;
+  state_.major.bold = false;
+
+  return *this;
+}
+
+auto Formatter::ThemeGruvbox() -> Formatter& {
+  state_.layout = Layout::kPretty;
+  state_.border = Border::kUnicode;
+  state_.colors = true;
+
+  state_.alignment = Alignment::kLeft;
+  state_.header.alignment = Alignment::kLeft;
+  state_.major.alignment = Alignment::kLeft;
+
+  // Gruvbox-inspired
+  state_.header.color = Color::kYellow;
+  state_.header.bold = true;
+
+  state_.major.color = Color::kCyan;
+  state_.major.bold = false;
+
+  return *this;
+}
+
 [[nodiscard]] auto Formatter::GetState() const -> const FormatState& {
   return state_;
 }
