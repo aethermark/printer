@@ -1,5 +1,6 @@
 #pragma once
 
+#include "printer/detail/render.hpp"
 #include "printer/formatter.hpp"
 
 namespace printer {
