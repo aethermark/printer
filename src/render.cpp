@@ -6,7 +6,7 @@
 #include <string_view>
 #include <utility>
 
-#include "model.hpp"
+#include "printer/detail/model.hpp"
 #include "printer/style.hpp"
 
 namespace printer {
