@@ -31,6 +31,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(PRINTER_BUILD_PLAYGROUND "Build playground" ${PRINTER_IS_TOP_LEVEL})
 option(PRINTER_BUILD_BENCHMARKS "Build benchmarks" ${PRINTER_IS_TOP_LEVEL})
 option(PRINTER_ENABLE_COVERAGE "Enable coverage instrumentation" ${PRINTER_IS_TOP_LEVEL})
+option(PRINTER_BUILD_STATIC_ANALYSIS "Build the static analysis translation unit" ${PRINTER_IS_TOP_LEVEL})
 
 # ============================================================================
 # Library
@@ -66,6 +67,46 @@ set_target_properties(printer PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
+
+# ============================================================================
+# Static analysis translation unit
+# ============================================================================
+
+if(PRINTER_BUILD_STATIC_ANALYSIS)
+
+    file(
+        GLOB_RECURSE PRINTER_PUBLIC_HEADERS
+        CONFIGURE_DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
+    )
+
+    set(HEADER_INCLUDES "")
+
+    foreach(header ${PRINTER_PUBLIC_HEADERS})
+        file(
+            RELATIVE_PATH rel
+            "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${header}"
+        )
+
+        string(APPEND HEADER_INCLUDES "#include <${rel}>\n")
+    endforeach()
+
+    configure_file(
+        cmake/static_analysis.cpp.in
+        "${CMAKE_CURRENT_BINARY_DIR}/static_analysis.cpp"
+        @ONLY
+    )
+
+    add_library(printer-static-analysis OBJECT
+        "${CMAKE_CURRENT_BINARY_DIR}/static_analysis.cpp"
+    )
+
+    target_link_libraries(printer-static-analysis
+        PRIVATE printer
+    )
+
+endif()
 
 # ============================================================================
 # Coverage

@@ -36,10 +36,12 @@ format:
 	@echo "Done."
 
 lint: debug
-	@find src \
-		-type f  -name "*.cpp" \
-		-print0 | \
-    xargs -0 clang-tidy -p $(DEBUG_DIR) -header-filter="(src|include)/.*"
+	@{ \
+		find src -type f -name "*.cpp" -print0; \
+		printf '%s\0' "$(DEBUG_DIR)/static_analysis.cpp"; \
+	} | xargs -0 clang-tidy -p $(DEBUG_DIR) \
+		-header-filter="(src|include)/.*" \
+		-fix -fix-errors
 
 	@python3 $(IWYU_TOOL) \
 		-p $(DEBUG_DIR) \
