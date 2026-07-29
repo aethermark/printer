@@ -31,17 +31,17 @@ struct Borders {
   std::string_view vertical;
 };
 
-inline auto GetBorders(Border border) -> const Borders&;
-inline auto Pad(std::string_view text, std::size_t width, Alignment align) -> std::string;
-inline auto RenderDebug(const Table& table, [[maybe_unused]] const FormatState& fmt) -> std::string;
-inline auto ColorCode(Color color) -> std::string_view;
-inline auto ApplyStyle(std::string& out, const TextStyle& style, bool enabled) -> void;
+auto GetBorders(Border border) -> const Borders&;
+auto Pad(std::string_view text, std::size_t width, Alignment align) -> std::string;
+auto RenderDebug(const Table& table, [[maybe_unused]] const FormatState& fmt) -> std::string;
+auto ColorCode(Color color) -> std::string_view;
+auto ApplyStyle(std::string& out, const TextStyle& style, bool enabled) -> void;
 // NOLINTBEGIN(bugprone-easily-swappable-parameters)
-inline void DrawBorder(std::string& out, std::string_view left, std::string_view middle,
-                       std::string_view right, std::string_view horizontal,
-                       const std::vector<std::size_t>& widths);
+void DrawBorder(std::string& out, std::string_view left, std::string_view middle,
+                std::string_view right, std::string_view horizontal,
+                const std::vector<std::size_t>& widths);
 // NOLINTEND(bugprone-easily-swappable-parameters)
-inline auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string;
+auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string;
 auto RenderImpl(const Table& table, const FormatState& fmt) -> std::string;
 
 }  // namespace printer

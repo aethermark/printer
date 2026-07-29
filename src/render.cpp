@@ -35,11 +35,11 @@ inline constexpr Borders kASCII{.top_left = "+",
                                 .horizontal = "-",
                                 .vertical = "|"};
 
-inline auto GetBorders(Border border) -> const Borders& {
+auto GetBorders(Border border) -> const Borders& {
   return border == Border::kUnicode ? kUnicode : kASCII;
 }
 
-inline auto Pad(std::string_view text, std::size_t width, Alignment align) -> std::string {
+auto Pad(std::string_view text, std::size_t width, Alignment align) -> std::string {
   if (text.size() >= width) {
     return std::string(text);
   }
@@ -64,8 +64,7 @@ inline auto Pad(std::string_view text, std::size_t width, Alignment align) -> st
   return std::string(text);
 }
 
-inline auto RenderDebug(const Table& table, [[maybe_unused]] const FormatState& fmt)
-    -> std::string {
+auto RenderDebug(const Table& table, [[maybe_unused]] const FormatState& fmt) -> std::string {
   std::string out;
   out += table.title;
   out += " {\n";
@@ -100,7 +99,7 @@ inline auto RenderDebug(const Table& table, [[maybe_unused]] const FormatState& 
   return out;
 }
 
-inline auto ColorCode(Color color) -> std::string_view {
+auto ColorCode(Color color) -> std::string_view {
   switch (color) {
     case Color::kBlack:
       return "\033[30m";
@@ -123,7 +122,7 @@ inline auto ColorCode(Color color) -> std::string_view {
   }
 }
 
-inline auto ApplyStyle(std::string& out, const TextStyle& style, bool enabled) -> void {
+auto ApplyStyle(std::string& out, const TextStyle& style, bool enabled) -> void {
   if (!enabled) {
     return;
   }
@@ -135,22 +134,22 @@ inline auto ApplyStyle(std::string& out, const TextStyle& style, bool enabled) -
   out += ColorCode(style.color);
 }
 
-inline auto ResetStyle(std::string& out, bool enabled) -> void {
+auto ResetStyle(std::string& out, bool enabled) -> void {
   if (enabled) {
     out += "\033[0m";
   }
 }
 
-inline void Repeat(std::string& out, std::string_view text, std::size_t count) {
+void Repeat(std::string& out, std::string_view text, std::size_t count) {
   while (count-- > 0) {
     out += text;
   }
 }
 
 // NOLINTBEGIN(bugprone-easily-swappable-parameters)
-inline void DrawBorder(std::string& out, std::string_view left, std::string_view middle,
-                       std::string_view right, std::string_view horizontal,
-                       const std::vector<std::size_t>& widths) {
+void DrawBorder(std::string& out, std::string_view left, std::string_view middle,
+                std::string_view right, std::string_view horizontal,
+                const std::vector<std::size_t>& widths) {
   // NOLINTEND(bugprone-easily-swappable-parameters)
 
   out += left;
@@ -167,7 +166,7 @@ inline void DrawBorder(std::string& out, std::string_view left, std::string_view
   out += "\n";
 }
 
-inline auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string {
+auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string {
   std::string out;
   auto const& border = GetBorders(fmt.border);
 
@@ -247,7 +246,7 @@ inline auto RenderPretty(const Table& table, const FormatState& fmt) -> std::str
   return out;
 }
 
-inline auto RenderImpl(const Table& table, const FormatState& fmt) -> std::string {
+auto RenderImpl(const Table& table, const FormatState& fmt) -> std::string {
   switch (fmt.layout) {
     case Layout::kDebug:
       return RenderDebug(table, fmt);
