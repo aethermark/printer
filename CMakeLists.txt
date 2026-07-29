@@ -102,6 +102,11 @@ if(PRINTER_BUILD_STATIC_ANALYSIS)
         "${CMAKE_CURRENT_BINARY_DIR}/static_analysis.cpp"
     )
 
+    target_include_directories(printer-static-analysis
+          PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
     target_link_libraries(printer-static-analysis
         PRIVATE printer
     )
