@@ -11,6 +11,13 @@
 
 namespace printer {
 
+struct BorderStyle {
+  std::string_view left;
+  std::string_view middle;
+  std::string_view right;
+  std::string_view horizontal;
+};
+
 inline constexpr Borders kUnicode{.top_left = "┌",
                                   .top_mid = "┬",
                                   .top_right = "┐",
@@ -146,23 +153,19 @@ void Repeat(std::string& out, std::string_view text, std::size_t count) {
   }
 }
 
-// NOLINTBEGIN(bugprone-easily-swappable-parameters)
-void DrawBorder(std::string& out, std::string_view left, std::string_view middle,
-                std::string_view right, std::string_view horizontal,
+void DrawBorder(std::string& out, const BorderStyle& style,
                 const std::vector<std::size_t>& widths) {
-  // NOLINTEND(bugprone-easily-swappable-parameters)
-
-  out += left;
+  out += style.left;
 
   for (std::size_t i = 0; i < widths.size(); ++i) {
-    Repeat(out, horizontal, widths.at(i) + 2);
+    Repeat(out, style.horizontal, widths.at(i) + 2);
 
     if (i + 1 != widths.size()) {
-      out += middle;
+      out += style.middle;
     }
   }
 
-  out += right;
+  out += style.right;
   out += "\n";
 }
 
@@ -189,7 +192,12 @@ auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string {
     out += "\n";
   }
 
-  DrawBorder(out, border.top_left, border.top_mid, border.top_right, border.horizontal, widths);
+  DrawBorder(out,
+             {.left = border.top_left,
+              .middle = border.top_mid,
+              .right = border.top_right,
+              .horizontal = border.horizontal},
+             widths);
 
   out += border.vertical;
 
@@ -207,7 +215,12 @@ auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string {
 
   out += '\n';
 
-  DrawBorder(out, border.mid_left, border.mid_mid, border.mid_right, border.horizontal, widths);
+  DrawBorder(out,
+             {.left = border.mid_left,
+              .middle = border.mid_mid,
+              .right = border.mid_right,
+              .horizontal = border.horizontal},
+             widths);
 
   for (auto const& row : table.rows) {
     out += border.vertical;
@@ -240,7 +253,11 @@ auto RenderPretty(const Table& table, const FormatState& fmt) -> std::string {
     out += '\n';
   }
 
-  DrawBorder(out, border.bottom_left, border.bottom_mid, border.bottom_right, border.horizontal,
+  DrawBorder(out,
+             {.left = border.bottom_left,
+              .middle = border.bottom_mid,
+              .right = border.bottom_right,
+              .horizontal = border.horizontal},
              widths);
 
   return out;
