@@ -1,5 +1,5 @@
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/GlyphTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/PrinterTargets.cmake")
 
-check_required_components(Glyph)
+check_required_components(Printer)
